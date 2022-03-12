@@ -1,6 +1,11 @@
 #!/bin/sh
 _rzd_="\n========================================\n"
-echo "${_rzd_}XMRIG Android Builder ($(uname -o)/$(uname -m))${_rzd_}"
+_build_r_=$(getprop ro.build.version.release)
+_build_sdk_=$(getprop ro.build.version.sdk)
+_arch_=$(uname -m)
+_pf_=${_build_r_}-_${_build_sdk_}-${_arch_}
+
+echo "${_rzd_}XMRIG Build Script (XBS) (${_pf_})${_rzd_}"
 
 
 echo "-- Step 1. Update & Install packages"
@@ -13,15 +18,15 @@ echo "Press Enter to continue:"
 read r
 nano xmrig/src/donate.h
 echo "Step 4. Building"
-mkdir -p xmrig/build
-cd xmrig/build
-cmake .. -DWITH_HWLOC=OFF
+mkdir -p build
+cd build
+cmake ../xmrig -DWITH_HWLOC=OFF
 make -j$(nproc)
-if [ -f xmrig ]; then
-pf="$(uname -p)-$(uname -m)"
-mv xmrig xmrig-${pf}
+if [ -f build/xmrig ]; then
+mv build/xmrig bin/xmrig-${_pf_}
+rm -rf build
 echo "\nBUILDING FINISHED\n"
-ls -l xmrig-${pf}
+ls -l bin/xmrig-${pf}
 fi
 
 
