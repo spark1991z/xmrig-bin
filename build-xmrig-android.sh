@@ -1,9 +1,14 @@
 #!/bin/sh
+_os_=$(uname -o)
+if [ "${_os_}" != "Android" ]; then
+ echo "This script only for Android OS. Your OS: ${_os_}"
+ exit
+fi
 _rzd_="\n========================================\n"
 _build_r_=$(getprop ro.build.version.release)
 _build_sdk_=$(getprop ro.build.version.sdk)
 _arch_=$(uname -m)
-_pf_=${_build_r_}-_${_build_sdk_}-${_arch_}
+_pf_=${_build_r_}-${_build_sdk_}-${_arch_}
 
 echo "${_rzd_}XMRIG Build Script (XBS) (${_pf_})${_rzd_}"
 
@@ -22,11 +27,12 @@ mkdir -p build
 cd build
 cmake ../xmrig -DWITH_HWLOC=OFF
 make -j$(nproc)
-if [ -f build/xmrig ]; then
+if [ -f xmrig ]; then
+cd ..
 mv build/xmrig bin/xmrig-${_pf_}
-rm -rf build
+#rm -rf build
 echo "\nBUILDING FINISHED\n"
-ls -l bin/xmrig-${pf}
+ls -l bin/xmrig-${_pf_}
 fi
 
 
