@@ -5,29 +5,35 @@ set +x
 _arch_=$(uname -m)
 _pf_=unknown
 _rzd_="\n==========================================\n";
-_sudo_=
+_pm_=
 _packages_=
 case $(uname -o) in
 "Android")
 _build_r_=$(getprop ro.build.version.release)
 _build_sdk_=$(getprop ro.build.version.sdk)
 _pf_=android_${_build_sdk_}_${_build_r_}
+_pm_="pkg"
 _packages_="cmake clang libuv"
 ;;
 "GNU/Linux")
 if [ -f /etc/issue.net ]; then
 _pf_=$(cat /etc/issue.net | tr "[:upper:]" "[:lower:]" | tr " " "_")
-_sudo_=sudo
+_pm_="sudo apt-get"
 _packages_="cmake clang libuv1-dev libssl-dev"
 fi
+;;
+*) 
+echo "Unknown OS.";
+return;
 ;;
 esac
 
 echo "${_rzd_}XMRig Build Script (${_pf_}-${_arch_})${_rzd_}"
 
-### Update & Install packages
-${_sudo_} apt-get update || return
-${_sudo_} apt-get install ${_packages_} -y || return
+### Update & Upgrade & Install packages
+${_pm_} update -y || return
+${_pm_} upgrade -y || return
+${_pm_} install ${_packages_} -y || return
 
 ### Cloning XMRig repository
 git clone https://github.com/xmrig/xmrig
