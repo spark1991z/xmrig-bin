@@ -1,5 +1,7 @@
 #!/bin/sh
 set +x
+
+### OS
 _arch_=$(uname -m)
 _pf_=unknown
 _rzd_="\n==========================================\n";
@@ -22,11 +24,14 @@ fi
 esac
 
 echo "${_rzd_}XMRig Build Script (${_pf_}-${_arch_})${_rzd_}"
+
 ### Update & Install packages
 ${_sudo_} apt-get update || return
 ${_sudo_} apt-get install ${_packages_} -y || return
+
 ### Cloning XMRig repository
 git clone https://github.com/xmrig/xmrig
+
 ### Building
 mkdir -p build
 cd build
@@ -39,5 +44,4 @@ if [ -f xmrig ]; then
  echo "\nBUILDING FINISHED\n"
  ls -l bin/xmrig-${_pf_}-${_arch_}
 fi
-
 
