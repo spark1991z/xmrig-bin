@@ -43,8 +43,5 @@ if [ $USE_RX_1GP -eq 1 ]; then
  FLAGS+=" --randomx-1gb-pages"
 fi
 
-echo "Flags: ${FLAGS}"
-read r
-
 bin/xmrig-${_pf_}-${_arch_} -o ${POOL} -u ${WALLET}.${WORKER} -p x -t $THREADS --cpu-affinity $CPUAFF ${FLAGS}
 
