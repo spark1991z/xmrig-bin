@@ -22,16 +22,16 @@ fi
 ### Base
 POOL=pool.minexmr.com:4444
 WALLET=87UXR53VnD28MjyxcuWQywDMVMx3bRCtgVcMPEHPPfG5fwHhk1y8CySfsAQc3ureBUfsFExBMRokuEpAfKtpt8AU5PzVZoe
-THREADS=2
-CPUAFF=0xC0 #7654 3210
-WORKER=mi9t
+THREADS=1
+CPUAFF=0x01 #7654 3210
+WORKER=${_pf_}-${_arch_}
 ### Huge Pages
 NO_HP=1
-USE_HPJ=1
+USE_HPJ=0
 ### Random X
-RX_MODE=fast # light|fast
+RX_MODE=light # light fast
 USE_RX_1GP=0
-
+### Flags
 FLAGS=
 
 if [ $NO_HP -eq 1 ]; then
