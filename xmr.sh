@@ -7,6 +7,11 @@ _build_r_=$(getprop ro.build.version.release)
 _build_sdk_=$(getprop ro.build.version.sdk)
 _pf_=android_${_build_sdk_}_${_build_r_}
 ;;
+"GNU/Linux")
+if [ -f /etc/issue.net ]; then
+_pf_=$(cat /etc/issue.net | tr "[:upper:]" "[:lower:]" | tr " " "_")
+fi
+;;
 esac
 
 if [ ! -f bin/xmrig-${_pf_}-${_arch_} ]; then
