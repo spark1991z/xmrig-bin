@@ -9,7 +9,7 @@ case $(uname -o) in
 "Android")
 _build_r_=$(getprop ro.build.version.release)
 _build_sdk_=$(getprop ro.build.version.sdk)
-_pf_=android-${_build_sdk_}_${_build_r_}
+_pf_=android_${_build_sdk_}_${_build_r_}
 _packages_="cmake clang libuv"
 ;;
 "GNU/Linux")
@@ -22,23 +22,15 @@ fi
 esac
 
 echo "${_rzd_}XMRig Build Script (${_pf_}-${_arch_})${_rzd_}"
-read r
-
-echo "-- Step 1. Update & Install packages"
-echo "Packages: ${_packages_}"
+### Update & Install packages
 ${_sudo_} apt-get update || return
 ${_sudo_} apt-get install ${_packages_} -y || return
-read r
-
-
-echo "-- Step 2. Cloning repository"
+### Cloning XMRig repository
 git clone https://github.com/xmrig/xmrig
-read r
-
-echo "Step 3. Building"
+### Building
 mkdir -p build
 cd build
-cmake ../xmrig -DWITH_HWLOC=OFF
+cmake ../xmrig -DWITH_HWLOC=OFF || return
 make -j$(nproc)
 if [ -f xmrig ]; then
  cd ..

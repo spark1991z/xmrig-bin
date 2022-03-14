@@ -1,17 +1,16 @@
 #!/bin/bash
-_os_=$(uname -o)
-if [ "${_os_}" != "Android" ]; then
- echo "This script only for Android. Your OS: ${_os_}."
- exit
-fi
-
+_arch_=$(uname -m)
+_pf_=unknown
+case $(uname -o) in
+"Android")
 _build_r_=$(getprop ro.build.version.release)
 _build_sdk_=$(getprop ro.build.version.sdk)
-_arch_=$(uname -m)
-_pf_=${_build_r_}-${_build_sdk_}-${_arch_}
+_pf_=android_${_build_sdk_}_${_build_r_}
+;;
+esac
 
-if [ ! -f bin/xmrig-${_pf_} ]; then
- echo "xmrig-${_pf_}  not found. Try to build from sources via script."
+if [ ! -f bin/xmrig-${_pf_}-${_arch_} ]; then
+ echo "xmrig-${_pf_}-${_arch_}  not found. Try to build from sources via script."
  exit
 fi
 
@@ -44,5 +43,8 @@ if [ $USE_RX_1GP -eq 1 ]; then
  FLAGS+=" --randomx-1gb-pages"
 fi
 
-bin/xmrig-${_pf_} -o ${POOL} -u ${WALLET}.${WORKER} -p x -t $THREADS --cpu-affinity $CPUAFF ${FLAGS}
+echo "Flags: ${FLAGS}"
+read r
+
+bin/xmrig-${_pf_}-${_arch_} -o ${POOL} -u ${WALLET}.${WORKER} -p x -t $THREADS --cpu-affinity $CPUAFF ${FLAGS}
 
