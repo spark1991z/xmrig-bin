@@ -22,18 +22,26 @@ _pm_="sudo apt-get"
 _packages_="cmake clang libuv1-dev libssl-dev"
 fi
 ;;
+"Linux")
+if [ -f /etc/alpine-release ]; then
+_pf_=alpine_$(cat /etc/alpine-release)
+_pm_="apk"
+_pm_ic_=add
+_packages_="cmake make gcc clang libuv-dev openssl-dev musl-dev libstdc++"
+fi
+;;
 *) 
 echo "Unknown OS.";
 return;
 ;;
 esac
 
-echo "${_rzd_}XMRig Build Script (${_pf_}-${_arch_})${_rzd_}"
+echo -e "${_rzd_}XMRig Build Script (${_pf_}-${_arch_})${_rzd_}"
 
 ### Update & Upgrade & Install packages
-${_pm_} update -y || return
-${_pm_} upgrade -y || return
-${_pm_} install ${_packages_} -y || return
+${_pm_} update || return
+${_pm_} upgrade || return
+${_pm_} ${_pm_ic_} ${_packages_} || return
 
 ### Cloning XMRig repository
 git clone https://github.com/xmrig/xmrig
