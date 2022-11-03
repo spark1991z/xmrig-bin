@@ -6,6 +6,7 @@ _arch_=$(uname -m)
 _pf_=unknown
 _rzd_="\n==========================================\n";
 _pm_=
+_pm_ic_=install
 _packages_=
 case $(uname -o) in
 "Android")
