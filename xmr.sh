@@ -22,7 +22,7 @@ if [ ! -f bin/xmrig-${_pf_}-${_arch_} ]; then
 fi
 
 ### Base
-POOL=pool.minexmr.com:4444
+POOL=xmr.2miners.com:2222
 WALLET=87UXR53VnD28MjyxcuWQywDMVMx3bRCtgVcMPEHPPfG5fwHhk1y8CySfsAQc3ureBUfsFExBMRokuEpAfKtpt8AU5PzVZoe
 THREADS=1
 CPUAFF=0x01 #7654 3210
