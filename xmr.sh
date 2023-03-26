@@ -63,5 +63,12 @@ else
  PASSWORKER=${WORKER}
 fi
 
-sudo bin/xmrig-${_pf_}-${_arch_} -o ${POOL} -u ${WALLETWORKER} -p ${PASSWORKER} -t $THREADS --cpu-affinity $CPUAFF ${FLAGS}
+### SUDO
+USE_SUDO=0
+SUDO=
+if [ $USE_SUDO -eq 1 ]; then
+ SUDO=sudo
+fi
+
+${SUDO} bin/xmrig-${_pf_}-${_arch_} -o ${POOL} -u ${WALLETWORKER} -p ${PASSWORKER} -t $THREADS --cpu-affinity $CPUAFF ${FLAGS}
 
